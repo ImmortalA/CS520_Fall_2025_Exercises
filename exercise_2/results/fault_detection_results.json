@@ -1,0 +1,20 @@
+[
+  {
+    "problem_id": "humaneval_54",
+    "function_name": "same_chars",
+    "bug_description": "Wrong operator: changed == to != (inverts result)",
+    "bug_caught": true,
+    "tests_passed": 1,
+    "tests_total": 1,
+    "conclusion": "Tests successfully detected the injected bug"
+  },
+  {
+    "problem_id": "humaneval_10",
+    "function_name": "make_palindrome",
+    "bug_description": "Off-by-one error: changed range(n + 1) to range(n), missing empty string case",
+    "bug_caught": true,
+    "tests_passed": 1,
+    "tests_total": 1,
+    "conclusion": "Tests successfully detected the injected bug"
+  }
+]

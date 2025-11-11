@@ -1,0 +1,1 @@
+Off-by-one error: changed range(n + 1) to range(n), missing empty string case

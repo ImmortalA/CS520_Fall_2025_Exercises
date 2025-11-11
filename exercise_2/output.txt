@@ -1,0 +1,308 @@
+(sat_env) D:\Umass\Semester_3\cs520\exercises\exercise_2>python run_all.py
+================================================================================
+Exercise 2: Automated Testing & Coverage
+================================================================================
+
+[Part 1] Measuring baseline coverage...
+--------------------------------------------------------------------------------
+Measuring baseline coverage for 10 problems...
+================================================================================
+
+[humaneval_0] has_close_elements
+  Solution: llm-codegen\generations\humaneval_0\gemini\scot\scot_sample1.py
+  Line: 100.0%, Branch: 100.0%
+  Tests: 1/1
+
+[humaneval_1] separate_paren_groups
+  Solution: llm-codegen\generations\humaneval_1\gemini\scot\scot_sample1.py
+  Line: 96.3%, Branch: 90.0%
+  Tests: 1/1
+
+[humaneval_10] make_palindrome
+  Solution: llm-codegen\generations\humaneval_10\gemini\scot\scot_sample1.py
+  Line: 93.8%, Branch: 75.0%
+  Tests: 1/1
+
+[humaneval_108] count_nums
+  Solution: llm-codegen\generations\humaneval_108\gemini\scot\scot_sample1.py
+  Line: 100.0%, Branch: 100.0%
+  Tests: 1/1
+
+[humaneval_12] longest
+  Solution: llm-codegen\generations\humaneval_12\gemini\scot\scot_sample1.py
+  Line: 100.0%, Branch: 100.0%
+  Tests: 1/1
+
+[humaneval_17] parse_music
+  Solution: llm-codegen\generations\humaneval_17\gemini\scot\scot_sample1.py
+  Line: 95.0%, Branch: 87.5%
+  Tests: 1/1
+
+[humaneval_25] factorize
+  Solution: llm-codegen\generations\humaneval_25\gemini\scot\scot_sample1.py
+  Line: 92.6%, Branch: 90.0%
+  Tests: 1/1
+
+[humaneval_31] is_prime
+  Solution: llm-codegen\generations\humaneval_31\gemini\scot\scot_sample1.py
+  Line: 100.0%, Branch: 100.0%
+  Tests: 1/1
+
+[humaneval_54] same_chars
+  Solution: llm-codegen\generations\humaneval_54\gemini\scot\scot_sample1.py
+  Line: 100.0%, Branch: 0.0%
+  Tests: 1/1
+
+[humaneval_61] correct_bracketing
+  Solution: llm-codegen\generations\humaneval_61\gemini\scot\scot_sample1.py
+  Line: 94.4%, Branch: 87.5%
+  Tests: 1/1
+
+================================================================================
+Baseline coverage measurement complete!
+Results saved to D:\Umass\Semester_3\cs520\exercises\exercise_2\results\baseline_coverage.csv
+Measured 10 problems
+================================================================================
+
+Summary Table:
+----------------------------------------------------------------------------------------------------
+Problem              Line %     Branch %     Tests        Notes
+----------------------------------------------------------------------------------------------------
+humaneval_0           100.0%     100.0%      1/1          High branch coverage - most paths test
+humaneval_1            96.3%      90.0%      1/1          High branch coverage - most paths test
+humaneval_10           93.8%      75.0%      1/1          Moderate branch coverage - some edge c
+humaneval_108         100.0%     100.0%      1/1          High branch coverage - most paths test
+humaneval_12          100.0%     100.0%      1/1          High branch coverage - most paths test
+humaneval_17           95.0%      87.5%      1/1          High branch coverage - most paths test
+humaneval_25           92.6%      90.0%      1/1          High branch coverage - most paths test
+humaneval_31          100.0%     100.0%      1/1          High branch coverage - most paths test
+humaneval_54          100.0%       0.0%      1/1          Low branch coverage - many conditional
+humaneval_61           94.4%      87.5%      1/1          High branch coverage - most paths test
+
+[Part 2] Improving tests with LLM...
+--------------------------------------------------------------------------------
+Selected problems for improvement: ['humaneval_54', 'humaneval_10']
+Saved selected problems to D:\Umass\Semester_3\cs520\exercises\exercise_2\results\selected_problems.json
+
+  Improving tests for humaneval_54 (same_chars)...
+    Iteration 1...
+      Coverage: 0.0% → 0.0% (+0.0%)
+    Iteration 2...
+      Coverage: 0.0% → 0.0% (+0.0%)
+    Iteration 3...
+      Coverage: 0.0% → 0.0% (+0.0%)
+    Iteration 4...
+      Coverage: 0.0% → 0.0% (+0.0%)
+    Iteration 5...
+      Coverage: 0.0% → 0.0% (+0.0%)
+
+  Improving tests for humaneval_10 (make_palindrome)...
+    Iteration 1...
+      Coverage: 75.0% → 75.0% (+0.0%)
+    Iteration 2...
+      Coverage: 75.0% → 75.0% (+0.0%)
+    Iteration 3...
+      Coverage: 75.0% → 75.0% (+0.0%)
+    Iteration 4...
+      Coverage: 75.0% → 75.0% (+0.0%)
+    Iteration 5...
+      Coverage: 75.0% → 75.0% (+0.0%)
+
+================================================================================
+LLM test improvement complete!
+================================================================================
+
+[Part 3] Testing fault detection...
+--------------------------------------------------------------------------------
+Loaded selected problems from Part 2: ['humaneval_54', 'humaneval_10']
+Running fault detection for: ['humaneval_54', 'humaneval_10']
+    Using improved test from Part 2 (iteration): D:\Umass\Semester_3\cs520\exercises\exercise_2\results\improved_tests\humaneval_54\test_iter5.py
+
+  Testing fault detection for humaneval_54 (same_chars)...
+    Injected bug: Changed return True to return False
+    FAILED: Bug was NOT caught by tests
+    Using improved test from Part 2 (iteration): D:\Umass\Semester_3\cs520\exercises\exercise_2\results\improved_tests\humaneval_10\test_iter5.py
+
+  Testing fault detection for humaneval_10 (make_palindrome)...
+    Injected bug: Missing check: removed conditional '""" Test if given string is a palindrome """'
+    FAILED: Bug was NOT caught by tests
+
+================================================================================
+Fault detection complete!
+Results saved to D:\Umass\Semester_3\cs520\exercises\exercise_2\results\fault_detection_results.json
+================================================================================
+
+Fault Detection Summary:
+--------------------------------------------------------------------------------
+humaneval_54         NOT CAUGHT   Changed return True to return False
+humaneval_10         NOT CAUGHT   Missing check: removed conditional '""" Test if gi
+
+================================================================================
+All parts completed!
+================================================================================
+
+(sat_env) D:\Umass\Semester_3\cs520\exercises\exercise_2>python run_all.py
+================================================================================
+Exercise 2: Automated Testing & Coverage
+================================================================================
+
+[Part 1] Measuring baseline coverage...
+--------------------------------------------------------------------------------
+Measuring baseline coverage for 10 problems...
+================================================================================
+
+[humaneval_0] has_close_elements
+  Solution: llm-codegen\generations\humaneval_0\gemini\scot\scot_sample1.py
+  Line: 100.0%, Branch: 100.0%
+  Tests: 1/1
+
+[humaneval_1] separate_paren_groups
+  Solution: llm-codegen\generations\humaneval_1\gemini\scot\scot_sample1.py
+  Line: 96.3%, Branch: 90.0%
+  Tests: 1/1
+
+[humaneval_10] make_palindrome
+  Solution: llm-codegen\generations\humaneval_10\gemini\scot\scot_sample1.py
+  Line: 93.8%, Branch: 75.0%
+  Tests: 1/1
+
+[humaneval_108] count_nums
+  Solution: llm-codegen\generations\humaneval_108\gemini\scot\scot_sample1.py
+  Line: 100.0%, Branch: 100.0%
+  Tests: 1/1
+
+[humaneval_12] longest
+  Solution: llm-codegen\generations\humaneval_12\gemini\scot\scot_sample1.py
+  Line: 100.0%, Branch: 100.0%
+  Tests: 1/1
+
+[humaneval_17] parse_music
+  Solution: llm-codegen\generations\humaneval_17\gemini\scot\scot_sample1.py
+  Line: 95.0%, Branch: 87.5%
+  Tests: 1/1
+
+[humaneval_25] factorize
+  Solution: llm-codegen\generations\humaneval_25\gemini\scot\scot_sample1.py
+  Line: 92.6%, Branch: 90.0%
+  Tests: 1/1
+
+[humaneval_31] is_prime
+  Solution: llm-codegen\generations\humaneval_31\gemini\scot\scot_sample1.py
+  Line: 100.0%, Branch: 100.0%
+  Tests: 1/1
+
+[humaneval_54] same_chars
+  Solution: llm-codegen\generations\humaneval_54\gemini\scot\scot_sample1.py
+  Line: 100.0%, Branch: 0.0%
+  Tests: 1/1
+
+[humaneval_61] correct_bracketing
+  Solution: llm-codegen\generations\humaneval_61\gemini\scot\scot_sample1.py
+  Line: 94.4%, Branch: 87.5%
+  Tests: 1/1
+
+================================================================================
+Baseline coverage measurement complete!
+Results saved to D:\Umass\Semester_3\cs520\exercises\exercise_2\results\baseline_coverage.csv
+Measured 10 problems
+================================================================================
+
+Summary Table:
+----------------------------------------------------------------------------------------------------
+Problem              Line %     Branch %     Tests        Notes
+----------------------------------------------------------------------------------------------------
+humaneval_0           100.0%     100.0%      1/1          High branch coverage - most paths test
+humaneval_1            96.3%      90.0%      1/1          High branch coverage - most paths test
+humaneval_10           93.8%      75.0%      1/1          Moderate branch coverage - some edge c
+humaneval_108         100.0%     100.0%      1/1          High branch coverage - most paths test
+humaneval_12          100.0%     100.0%      1/1          High branch coverage - most paths test
+humaneval_17           95.0%      87.5%      1/1          High branch coverage - most paths test
+humaneval_25           92.6%      90.0%      1/1          High branch coverage - most paths test
+humaneval_31          100.0%     100.0%      1/1          High branch coverage - most paths test
+humaneval_54          100.0%       0.0%      1/1          Low branch coverage - many conditional
+humaneval_61           94.4%      87.5%      1/1          High branch coverage - most paths test
+
+[Part 2] Improving tests with LLM...
+--------------------------------------------------------------------------------
+Selected problems for improvement: ['humaneval_54', 'humaneval_10']
+Saved selected problems to D:\Umass\Semester_3\cs520\exercises\exercise_2\results\selected_problems.json
+
+  Improving tests for humaneval_54 (same_chars)...
+    Iteration 1...
+      Coverage: 0.0% → 0.0% (+0.0%)
+    Iteration 2...
+      WARNING: Tests failed or had errors (return code: 1)
+      Coverage: 0.0% → 0.0% (+0.0%)
+    Iteration 3...
+      WARNING: Tests failed or had errors (return code: 1)
+      DEBUG: Found 28 additional test assertions
+      Coverage: 0.0% → 0.0% (+0.0%)
+    Iteration 4...
+      WARNING: Tests failed or had errors (return code: 1)
+      DEBUG: Found 50 additional test assertions
+      Coverage: 0.0% → 0.0% (+0.0%)
+    Iteration 5...
+      WARNING: Tests failed or had errors (return code: 1)
+      WARNING: Tests failed or had errors (return code: 1)
+      DEBUG: Found 73 additional test assertions
+      Coverage: 0.0% → 0.0% (+0.0%)
+
+  Improving tests for humaneval_10 (make_palindrome)...
+    Iteration 1...
+      WARNING: Tests failed or had errors (return code: 1)
+      Coverage: 75.0% → 75.0% (+0.0%)
+    Iteration 2...
+      WARNING: Tests failed or had errors (return code: 1)
+      WARNING: Tests failed or had errors (return code: 1)
+      DEBUG: Found 10 additional test assertions
+      Coverage: 75.0% → 75.0% (+0.0%)
+    Iteration 3...
+      WARNING: Tests failed or had errors (return code: 1)
+      WARNING: Tests failed or had errors (return code: 1)
+      DEBUG: Found 35 additional test assertions
+      Coverage: 75.0% → 75.0% (+0.0%)
+    Iteration 4...
+      WARNING: Tests failed or had errors (return code: 1)
+      WARNING: Tests failed or had errors (return code: 1)
+      DEBUG: Found 46 additional test assertions
+      Coverage: 75.0% → 75.0% (+0.0%)
+    Iteration 5...
+      WARNING: Tests failed or had errors (return code: 1)
+      WARNING: Tests failed or had errors (return code: 1)
+      DEBUG: Found 62 additional test assertions
+      Coverage: 75.0% → 75.0% (+0.0%)
+
+================================================================================
+LLM test improvement complete!
+================================================================================
+
+[Part 3] Testing fault detection...
+--------------------------------------------------------------------------------
+Loaded selected problems from Part 2: ['humaneval_54', 'humaneval_10']
+Running fault detection for: ['humaneval_54', 'humaneval_10']
+    Using improved test from Part 2 (iteration): D:\Umass\Semester_3\cs520\exercises\exercise_2\results\improved_tests\humaneval_54\test_iter5.py
+
+  Testing fault detection for humaneval_54 (same_chars)...
+    Injected bug: Wrong operator: changed == to != (inverts result)
+    SUCCESS: Bug was caught by tests!
+    Using improved test from Part 2 (iteration): D:\Umass\Semester_3\cs520\exercises\exercise_2\results\improved_tests\humaneval_10\test_iter5.py
+
+  Testing fault detection for humaneval_10 (make_palindrome)...
+    Injected bug: Off-by-one error: changed range(n + 1) to range(n), missing empty string case
+    SUCCESS: Bug was caught by tests!
+
+================================================================================
+Fault detection complete!
+Results saved to D:\Umass\Semester_3\cs520\exercises\exercise_2\results\fault_detection_results.json
+================================================================================
+
+Fault Detection Summary:
+--------------------------------------------------------------------------------
+humaneval_54         CAUGHT       Wrong operator: changed == to != (inverts result)
+humaneval_10         CAUGHT       Off-by-one error: changed range(n + 1) to range(n)
+
+================================================================================
+All parts completed!
+================================================================================
+
+(sat_env) D:\Umass\Semester_3\cs520\exercises\exercise_2>

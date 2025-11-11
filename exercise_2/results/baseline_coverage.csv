@@ -1,0 +1,11 @@
+problem_id,function_name,line_coverage,branch_coverage,tests_passed,tests_total,interpretation
+humaneval_0,has_close_elements,100.00,100.00,1,1,High branch coverage - most paths tested
+humaneval_1,separate_paren_groups,96.30,90.00,1,1,High branch coverage - most paths tested
+humaneval_10,make_palindrome,93.75,75.00,1,1,Moderate branch coverage - some edge cases missing
+humaneval_108,count_nums,100.00,100.00,1,1,High branch coverage - most paths tested
+humaneval_12,longest,100.00,100.00,1,1,High branch coverage - most paths tested
+humaneval_17,parse_music,95.00,87.50,1,1,High branch coverage - most paths tested
+humaneval_25,factorize,92.59,90.00,1,1,High branch coverage - most paths tested
+humaneval_31,is_prime,100.00,100.00,1,1,High branch coverage - most paths tested
+humaneval_54,same_chars,100.00,0.00,1,1,Low branch coverage - many conditional paths untested
+humaneval_61,correct_bracketing,94.44,87.50,1,1,High branch coverage - most paths tested
