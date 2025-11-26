@@ -1,0 +1,86 @@
+{
+  "evaluations": {
+    "same_chars": {
+      "prompt": "\nProblem description: Check if two words have the same characters.\nFunction signature: def same_chars(s0: str, s1: str) -> bool\n\nPlease write formal specifications as Python assertions that describe the correct behavior of this method.\nLet 'res' denote the expected return value of same_chars(s0, s1).\nDo not call 'same_chars()' in your assertions.\nDo not use methods with side effects such as print, file I/O, random number generation, or timing functions.\nExpress the relationship between s0, s1, and res using pure set operations, string operations, and boolean logic only.\nGenerate about 5 specifications.\n",
+      "evaluations": [
+        {
+          "spec": "assert res == (set(s0) == set(s1))  # Result equals whether both strings have identical character sets",
+          "correct": true,
+          "issue": null,
+          "correction": null
+        },
+        {
+          "spec": "assert res == (len(set(s0)) == len(set(s1)) and set(s0).issubset(set(s1)))  # Same unique chars and subset check",
+          "correct": false,
+          "issue": "Redundant condition - if set(s0) == set(s1), then issubset is automatically true",
+          "correction": "assert res == (set(s0) == set(s1))  # Simplified to direct set equality"
+        },
+        {
+          "spec": "assert res == (set(s0).symmetric_difference(set(s1)) == set())  # No characters unique to either string",
+          "correct": true,
+          "issue": null,
+          "correction": null
+        },
+        {
+          "spec": "assert res == (all(c in s1 for c in s0) and all(c in s0 for c in s1))  # All chars bidirectional membership",
+          "correct": true,
+          "issue": null,
+          "correction": null
+        },
+        {
+          "spec": "assert res == (sorted(s0) == sorted(s1))  # Sorted strings are identical",
+          "correct": false,
+          "issue": "Sorts all characters including duplicates, not just unique characters",
+          "correction": "assert res == (sorted(list(set(s0))) == sorted(list(set(s1))))  # Sort unique characters only"
+        }
+      ]
+    },
+    "make_palindrome": {
+      "prompt": "\nProblem description: Find the shortest palindrome that begins with a supplied string.\nAlgorithm idea is simple:\n- Find the longest postfix of supplied string that is a palindrome.\n- Append to the end of the string reverse of a string prefix that comes before the palindromic suffix.\n\nFunction signature: def make_palindrome(string: str) -> str\n\nPlease write formal specifications as Python assertions that describe the correct behavior of this method.\nLet 'res' denote the expected return value of make_palindrome(string).\nDo not call 'make_palindrome()' in your assertions.\nDo not use methods with side effects such as print, file I/O, random number generation, or timing functions.\nExpress the relationship between string and res using pure string operations and boolean logic only.\nGenerate about 5 specifications.\n",
+      "evaluations": [
+        {
+          "spec": "assert res == res[::-1]  # Result must be a palindrome",
+          "correct": true,
+          "issue": null,
+          "correction": null
+        },
+        {
+          "spec": "assert res.startswith(string)  # Result must start with the input string",
+          "correct": true,
+          "issue": null,
+          "correction": null
+        },
+        {
+          "spec": "assert len(res) >= len(string)  # Result length must be at least input length",
+          "correct": true,
+          "issue": null,
+          "correction": null
+        },
+        {
+          "spec": "assert len(res) <= 2 * len(string)  # Result length cannot exceed twice input length",
+          "correct": false,
+          "issue": "Upper bound is incorrect - for empty string, result length equals input length",
+          "correction": "assert len(res) <= 2 * len(string) - 1 if len(string) > 0 else len(res) == 0  # Correct upper bound"
+        },
+        {
+          "spec": "assert len(res) == len(string) + len([c for c in string if c not in string[::-1]])  # INCORRECT - complex logic",
+          "correct": false,
+          "issue": "Overly complex and incorrect logic for calculating expected length",
+          "correction": "assert string == '' or len(res) == len(string) or not (string == string[::-1])  # Length increases only if not already palindrome"
+        }
+      ]
+    }
+  },
+  "accuracy_rates": {
+    "same_chars": {
+      "correct": 3,
+      "total": 5,
+      "accuracy": 0.6
+    },
+    "make_palindrome": {
+      "correct": 3,
+      "total": 5,
+      "accuracy": 0.6
+    }
+  }
+}

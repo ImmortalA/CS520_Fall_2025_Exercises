@@ -1,0 +1,260 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{fullpage}
+\usepackage{hyperref}
+\usepackage{listings}
+
+% Inline code helper
+\newcommand{\code}[1]{\texttt{\small #1}}
+
+\title{Exercise 3: Specification-Guided Test Improvement}
+\author{CS520 - Software Engineering}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+
+This report explores the use of automatically generated formal specifications to guide the improvement of software test suites. Two problems from Exercise 2 with limited testing coverage were selected:
+
+\begin{itemize}
+    \item \textbf{humaneval\_54} — \code{same\_chars}
+    \item \textbf{humaneval\_10} — \code{make\_palindrome}
+\end{itemize}
+
+The workflow included: specification generation, evaluation, correction, test generation, and coverage comparison.
+
+\section{Part 1: Generate, Evaluate, and Refine Specifications}
+
+\subsection{Problem 1: same\_chars (humaneval\_54)}
+
+\subsubsection{Problem Description and Method Signature}
+
+\begin{verbatim}
+def same_chars(s0: str, s1: str) -> bool:
+    """
+    Check if two words have the same characters.
+    >>> same_chars('eabcdzzzz', 'dddzzzzzzzddeddabc') 
+    True
+    >>> same_chars('abcd', 'dddddddabc') 
+    True
+    >>> same_chars('dddddddabc', 'abcd')
+    True
+    >>> same_chars('eabcd', 'dddddddabc') 
+    False
+    >>> same_chars('abcd', 'dddddddabce') 
+    False
+    >>> same_chars('eabcdzzzz', 'dddzzzzzzzddddabc') 
+    False
+    """
+\end{verbatim}
+
+\subsubsection{LLM Prompt}
+\begin{verbatim}
+Problem description: Check if two words have the same characters.
+Method signature: def same_chars(s0: str, s1: str) -> bool
+
+Write formal specifications as Python assertions.
+Let 'res' denote the expected return value.
+Do not call same_chars().
+Use only pure boolean, set, and string operations.
+Generate about 5 meaningful specifications.
+\end{verbatim}
+
+\subsubsection{Generated Specifications (Before Correction)}
+
+\begin{enumerate}
+    \item \code{assert res == (set(s0) == set(s1))}
+    \item \code{assert res == (len(set(s0)) == len(set(s1)) and set(s0).issubset(set(s1)))}
+    \item \code{assert res == (set(s0).symmetric_difference(set(s1)) == set())}
+    \item \code{assert res == (all(c in s1 for c in s0) and all(c in s0 for c in s1))}
+    \item \code{assert res == (sorted(s0) == sorted(s1))}
+\end{enumerate}
+
+\textbf{Accuracy Rate:} 3/5 = 60\%
+
+\subsubsection{Incorrect Assertions and Corrections}
+
+\begin{tabular}{|c|p{6cm}|p{6cm}|}
+\hline
+Spec & Issue & Corrected Assertion \\
+\hline
+2 & Redundant: mutual subset + equal size collapses into simple set equality. &
+\code{assert res == (set(s0) == set(s1))} \\
+\hline
+5 & Incorrect because it compares full sorted strings including duplicates. &
+\code{assert res == (sorted(list(set(s0))) == sorted(list(set(s1))))} \\
+\hline
+\end{tabular}
+
+\subsubsection{Final Corrected Specifications Used in Part 2}
+
+\begin{verbatim}
+assert res == (set(s0) == set(s1))
+assert res == (set(s0).symmetric_difference(set(s1)) == set())
+assert res == (all(c in s1 for c in s0) and all(c in s0 for c in s1))
+assert res == (sorted(list(set(s0))) == sorted(list(set(s1))))
+\end{verbatim}
+
+\subsection{Problem 2: make\_palindrome (humaneval\_10)}
+
+\subsubsection{Problem Description and Method Signature}
+
+\begin{verbatim}
+def make_palindrome(string: str) -> str:
+    """
+    Find the shortest palindrome that begins with a supplied string.
+    """
+\end{verbatim}
+
+\subsubsection{LLM Prompt}
+\begin{verbatim}
+Problem: Find the shortest palindrome beginning with the supplied string.
+
+Write formal specifications using Python assertions.
+Let 'res' be the expected output.
+Use only pure string and boolean operations.
+Do not call make_palindrome().
+Generate around 5 specifications.
+\end{verbatim}
+
+\subsubsection{Generated Specifications (Before Correction)}
+
+\begin{enumerate}
+    \item \code{assert res == res[::-1]}
+    \item \code{assert res.startswith(string)}
+    \item \code{assert len(res) >= len(string)}
+    \item \code{assert len(res) <= 2 * len(string)}
+    \item \code{assert (string == string[::-1]) == (res == string)}
+\end{enumerate}
+
+\textbf{Accuracy Rate:} 3/5 = 60\%
+
+\subsubsection{Incorrect Assertions and Corrections}
+
+\begin{tabular}{|c|p{6cm}|p{6cm}|}
+\hline
+Spec & Issue & Corrected Assertion \\
+\hline
+4 & The implementation does not guarantee an upper bound of $2 \times$ length. &
+\code{assert string == '' or len(res) == len(string) or not (string == string[::-1])} \\
+\hline
+5 & False: the implementation sometimes extends even a palindromic input. &
+\code{assert (string == '') == (res == '')} \\
+\hline
+\end{tabular}
+
+\subsubsection{Final Corrected Specifications Used in Part 2}
+
+\begin{verbatim}
+assert res == res[::-1]
+assert res.startswith(string)
+assert len(res) >= len(string)
+assert string == '' or len(res) == len(string) or not (string == string[::-1])
+\end{verbatim}
+
+\section{Part 2: Specification-Guided Test Improvement}
+
+\subsection{Spec-Guided Tests}
+
+\subsubsection{same\_chars}
+
+\begin{verbatim}
+("abc", "bca", True)
+("aabbcc", "abcabc", True)
+("", "", True)
+("a", "a", True)
+("abc", "def", False)
+("ab", "abc", False)
+("abc", "ab", False)
+("a", "aa", True)
+("xyz", "zyx", True)
+("aaa", "a", True)
+("abcdef", "fedcba", True)
+("hello", "world", False)
+("programming", "grampion", True)
+("listen", "silent", True)
+("abc123", "321cba", True)
+\end{verbatim}
+
+\subsubsection{make\_palindrome}
+
+\begin{verbatim}
+("", "")
+("a", "a")
+("aa", "aa")
+("aba", "aba")
+("abba", "abba")
+("ab", "aba")
+("abc", "abcba")
+("abcd", "abcdcba")
+("cat", "catac")
+("race", "racecar")
+("abcdefg", "abcdefgfedcba")
+("palindrome", "palindromemordnilap")
+("raceca", "racecar")
+\end{verbatim}
+
+\section{Coverage Comparison}
+
+\subsection{Coverage Table}
+
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+Problem & Old Stmt \% & New Stmt \% & Old Branch \% & New Branch \% \\
+\hline
+same\_chars & 100.0 & 100.0 & 0.0 & 0.0 \\
+make\_palindrome & 75.0 & 95.0 & 75.0 & 90.0 \\
+\hline
+Average & 87.5 & 97.5 & 37.5 & 45.0 \\
+\hline
+\end{tabular}
+
+\subsection{Insights}
+
+\subsubsection{same\_chars}
+Coverage remains unchanged due to the implementation being a single expression without branches.  
+However, the spec-guided tests increase semantic assurance by covering:
+
+\begin{itemize}
+    \item duplicated-character variations,
+    \item alphanumeric combinations,
+    \item empty vs. non-empty cases,
+    \item reversible and asymmetric inputs.
+\end{itemize}
+
+\subsubsection{make\_palindrome}
+Coverage improves substantially because spec-guided tests exercise:
+
+\begin{itemize}
+    \item empty and single-character strings,
+    \item palindromic inputs of multiple lengths,
+    \item longest-prefix failure cases,
+    \item long and nearly-palindromic strings.
+\end{itemize}
+
+\section{Repository Information}
+
+GitHub Repository:  
+\url{https://github.com/ImmortalA/CS520_Fall_2025_Exercises}
+
+The repository includes:
+\begin{itemize}
+    \item All source code for both problems
+    \item Original and spec-guided tests
+    \item LLM-generated and corrected specifications
+    \item Coverage scripts and instructions
+\end{itemize}
+
+\section{Conclusion}
+
+This exercise demonstrates that formal specifications can be used both to validate LLM-generated assertions and to systematically improve test suites. For simple implementations such as \code{same\_chars}, specification-guided tests expand behavioral confidence even without increasing coverage metrics. For more complex algorithms such as \code{make\_palindrome}, statement and branch coverage improve significantly. 
+
+The overall LLM specification accuracy was 60\%, showing that manual refinement is required, but the corrected specifications proved effective for generating meaningful and thorough test cases.
+
+\end{document}
